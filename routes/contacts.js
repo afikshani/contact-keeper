@@ -47,7 +47,7 @@ router.post(
   }
 );
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     let contact = await Contact.findById(req.params.id);
 
@@ -61,7 +61,7 @@ router.delete('/:id', async (req, res) => {
 
     res.json({ msg: 'Contact removed' });
   } catch (err) {
-    console.error(error.message);
+    console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
@@ -72,7 +72,7 @@ router.put('/:id', auth, async (req, res) => {
   if (name) contactfields.name = name;
   if (email) contactfields.email = email;
   if (phone) contactfields.phone = phone;
-  if (type) contactfields.type = tpye;
+  if (type) contactfields.type = type;
 
   try {
     let contact = await Contact.findById(req.params.id);
@@ -91,7 +91,7 @@ router.put('/:id', auth, async (req, res) => {
 
     res.json(contact);
   } catch (err) {
-    console.error(error.message);
+    console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
